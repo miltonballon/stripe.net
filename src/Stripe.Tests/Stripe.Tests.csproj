@@ -76,6 +76,7 @@
     <Compile Include="charges\charge_behaviors.cs" />
     <Compile Include="charges\when_capturing_a_charge_with_a_card.cs" />
     <Compile Include="charges\when_creating_a_charge_with_a_customer_expanded.cs" />
+    <Compile Include="charges\when_getting_a_disputed_charge.cs" />
     <Compile Include="charges\when_listing_charges_by_date.cs" />
     <Compile Include="charges\when_listing_charges_with_expanded_properties.cs" />
     <Compile Include="charges\when_listing_charges_with_paging.cs" />
@@ -122,6 +123,11 @@
     <Compile Include="recipients\when_getting_a_recipient.cs" />
     <Compile Include="recipients\when_listing_recipients.cs" />
     <Compile Include="recipients\when_updating_a_recipient.cs" />
+    <Compile Include="refunds\when_listing_refunds.cs" />
+    <Compile Include="refunds\when_getting_a_refund.cs" />
+    <Compile Include="refunds\when_updating_a_refund.cs" />
+    <Compile Include="refunds\when_partially_refunding_a_charge.cs" />
+    <Compile Include="refunds\when_refunding_a_charge.cs" />
     <Compile Include="requestor\when_creating_a_request.cs" />
     <Compile Include="requestor\when_requesting_an_old_api_version.cs" />
     <Compile Include="requestor\when_requesting_a_mismatched_certificate.cs" />
@@ -140,6 +146,7 @@
     <Compile Include="transfers\transfer_behaviors.cs" />
     <Compile Include="transfers\when_creating_a_transfer.cs" />
     <Compile Include="transfers\when_getting_a_transfer.cs" />
+    <Compile Include="transfers\when_creating_a_failed_transfer.cs" />
     <Compile Include="transfers\when_listing_transfers.cs" />
     <Compile Include="_web_event_hooks\App_Code\event_hooks_handler.cs" />
     <Compile Include="invoices\when_getting_an_invoice.cs" />

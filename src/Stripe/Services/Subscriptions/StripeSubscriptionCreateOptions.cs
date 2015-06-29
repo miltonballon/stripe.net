@@ -42,6 +42,26 @@ namespace Stripe
         [JsonProperty("tax_percent")]
         public decimal? TaxPercent { get; set; }
 
+        public DateTime? BillingCycleAnchor { get; set; }
+        public bool BillingCycleAnchorNow { get; set; }
+        public bool BillingCycleAnchorUnchanged { get; set; }
+
+        [JsonProperty("billing_cycle_anchor")]
+        internal string BillingCycleAnchorInternal
+        {
+            get
+            {
+                if (BillingCycleAnchorNow)
+                    return "now";
+                else if (BillingCycleAnchorUnchanged)
+                    return "unchanged";
+                else if (BillingCycleAnchor.HasValue)
+                    return EpochTime.ConvertDateTimeToEpoch(BillingCycleAnchor.Value).ToString();
+                else
+                    return null;
+            }
+        }
+
         [JsonProperty("metadata")]
         public Dictionary<string, string> Metadata { get; set; }
     }

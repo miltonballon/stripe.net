@@ -2,8 +2,6 @@
   
 ![Donate](https://pledgie.com/campaigns/22262.png)  
   
-*Breaking changes of stripe.net in the future will have a major version change (e.g. 3.0 for this latest release). Version changes that add functionality will be a minor version (e.g. 2.8.0). Sorry for the latest breaking code change, I will use this system going forward.* 
-  
 ##**If you would like to submit a pull request.**
 First, thank you! It is a lot of work to learn someone else's codebase, so I appreciate it. Here are a few things that would help me out:
 * Do not submit pull requests for more than one fix. Keep them small and focused.
@@ -37,7 +35,10 @@ c) In any of the service constructors documented below, you can optionally pass 
 
 	var planService = new StripePlanService("[your api key here]");
 
-Use the library :)
+Stripe API Version
+------------------
+
+Stripe.net forces a version of the Stripe API for which it was designed. You can find out the latest version supported by viewing StripeConfiguration.cs under the Infrastructure folder.
 
 Examples
 ========
@@ -138,22 +139,22 @@ customer or a charge, but only used once.
 	myToken.Card = new StripeCreditCardOptions()
 	{
 		// set this property if using a token
-		TokenId = *tokenId*;
+		TokenId = *tokenId*,
 
 		// set these properties if passing full card details (do not
 		// set these properties if you set TokenId)
-		CardNumber = "4242424242424242";
-		CardExpirationYear = "2022";
-		CardExpirationMonth = "10";
-		CardAddressCountry = "US";                // optional
-		CardAddressLine1 = "24 Beef Flank St";    // optional
-		CardAddressLine2 = "Apt 24";              // optional
-		CardAddressCity = "Biggie Smalls";        // optional
-		CardAddressState = "NC";                  // optional
-		CardAddressZip = "27617";                 // optional
-		CardName = "Joe Meatballs";               // optional
-		CardCvc = "1223";                         // optional
-	}
+		CardNumber = "4242424242424242",
+		CardExpirationYear = "2022",
+		CardExpirationMonth = "10",
+		CardAddressCountry = "US",                // optional
+		CardAddressLine1 = "24 Beef Flank St",    // optional
+		CardAddressLine2 = "Apt 24",              // optional
+		CardAddressCity = "Biggie Smalls",        // optional
+		CardAddressState = "NC",                  // optional
+		CardAddressZip = "27617",                 // optional
+		CardName = "Joe Meatballs",               // optional
+		CardCvc = "1223"                          // optional
+	};
 
 	// set this property if using a customer (stripe connect only)
 	myToken.CustomerId = *customerId*;
@@ -186,24 +187,25 @@ a credit card or token, and various meta data.
 	myCustomer.Card = new StripeCreditCardOptions()
 	{
 		// set this property if using a token
-		TokenId = *tokenId*;
+		TokenId = *tokenId*,
 
 		// set these properties if passing full card details (do not
 		// set these properties if you set TokenId)
-		CardNumber = "4242424242424242";
-		CardExpirationYear = "2022";
-		CardExpirationMonth = "10";
-		CardAddressCountry = "US";                // optional
-		CardAddressLine1 = "24 Beef Flank St";    // optional
-		CardAddressLine2 = "Apt 24";              // optional
-		CardAddressCity = "Biggie Smalls";        // optional
-		CardAddressState = "NC";                  // optional
-		CardAddressZip = "27617";                 // optional
-		CardName = "Joe Meatballs";               // optional
-		CardCvc = "1223";                         // optional
+		CardNumber = "4242424242424242",
+		CardExpirationYear = "2022",
+		CardExpirationMonth = "10",
+		CardAddressCountry = "US",                // optional
+		CardAddressLine1 = "24 Beef Flank St",    // optional
+		CardAddressLine2 = "Apt 24",              // optional
+		CardAddressCity = "Biggie Smalls",        // optional
+		CardAddressState = "NC",                  // optional
+		CardAddressZip = "27617",                 // optional
+		CardName = "Joe Meatballs",               // optional
+		CardCvc = "1223"                          // optional
 	}
 
 	myCustomer.PlanId = *planId*;                          // only if you have a plan
+	myCustomer.TaxPercent = 20;                            // only if you are passing a plan, this tax percent will be added to the price.
 	myCustomer.Coupon = *couponId*;                        // only if you have a coupon
 	myCustomer.TrialEnd = DateTime.UtcNow.AddMonths(1);    // when the customers trial ends (overrides the plan if applicable)
 	myCustomer.Quantity = 1;                               // optional, defaults to 1
@@ -225,21 +227,21 @@ Don't let this be intimidating - all of these fields are optional. You could jus
 	myCustomer.Card = new StripeCreditCardOptions()
 	{
 		// set this property if using a token
-		TokenId = *tokenId*;
+		TokenId = *tokenId*,
 
 		// set these properties if passing full card details (do not
 		// set these properties if you set TokenId)
-		CardNumber = "4242424242424242";
-		CardExpirationYear = "2022";
-		CardExpirationMonth = "10";
-		CardAddressCountry = "US";                // optional
-		CardAddressLine1 = "24 Beef Flank St";    // optional
-		CardAddressLine2 = "Apt 24";              // optional
-		CardAddressCity = "Biggie Smalls";        // optional
-		CardAddressState = "NC";                  // optional
-		CardAddressZip = "27617";                 // optional
-		CardName = "Joe Meatballs";               // optional
-		CardCvc = "1223";                         // optional
+		CardNumber = "4242424242424242",
+		CardExpirationYear = "2022",
+		CardExpirationMonth = "10",
+		CardAddressCountry = "US",                // optional
+		CardAddressLine1 = "24 Beef Flank St",    // optional
+		CardAddressLine2 = "Apt 24",              // optional
+		CardAddressCity = "Biggie Smalls",        // optional
+		CardAddressState = "NC",                  // optional
+		CardAddressZip = "27617",                 // optional
+		CardName = "Joe Meatballs",               // optional
+		CardCvc = "1223"                          // optional
 	}
 
 	// this will set the default card to use for this customer
@@ -285,7 +287,7 @@ Subscriptions
 ### Retrieving a subscription
 
 	var subscriptionService = new StripeSubscriptionService();
-	StripeSubscription stripeSubscription = subscriptionService.Get(*subscriptionId*);
+	StripeSubscription stripeSubscription = subscriptionService.Get(*customerId*, *subscriptionId*);
 
 ### Canceling a subscription
 
@@ -295,7 +297,7 @@ Subscriptions
 ### List all subscriptions for a customer
 
 	var subscriptionService = new StripeSubscriptionService();
-	IEnumerable<StripeSubscription> response = customerService.List(*customerId*); // optional StripeListOptions
+	IEnumerable<StripeSubscription> response = subscriptionService.List(*customerId*); // optional StripeListOptions
 
 [StripeListOptions](#stripelistoptions-paging) for paging
 
@@ -312,30 +314,30 @@ When creating a card you can use either a card or a token
 	myCard.Card = new StripeCreditCardOptions()
 	{
 		// set this property if using a token
-		TokenId = *tokenId*;
+		TokenId = *tokenId*,
 
 		// set these properties if passing full card details (do not
 		// set these properties if you set TokenId)
-		CardNumber = "4242424242424242";
-		CardExpirationYear = "2022";
-		CardExpirationMonth = "10";
-		CardAddressCountry = "US";                // optional
-		CardAddressLine1 = "24 Beef Flank St";    // optional
-		CardAddressLine2 = "Apt 24";              // optional
-		CardAddressCity = "Biggie Smalls";        // optional
-		CardAddressState = "NC";                  // optional
-		CardAddressZip = "27617";                 // optional
-		CardName = "Joe Meatballs";               // optional
-		CardCvc = "1223";                         // optional
+		CardNumber = "4242424242424242",
+		CardExpirationYear = "2022",
+		CardExpirationMonth = "10",
+		CardAddressCountry = "US",                // optional
+		CardAddressLine1 = "24 Beef Flank St",    // optional
+		CardAddressLine2 = "Apt 24",              // optional
+		CardAddressCity = "Biggie Smalls",        // optional
+		CardAddressState = "NC",                  // optional
+		CardAddressZip = "27617",                 // optional
+		CardName = "Joe Meatballs",               // optional
+		CardCvc = "1223"                          // optional
 	}
 
 	var cardService = new StripeCardService();
-	StripeCard stripeCard = cardService.Create(*customerId*, myCard);
+	StripeCard stripeCard = cardService.Create(*customerId*, myCard); // optional isRecipient
 
 ### Retrieving a card
 
 	var cardService = new StripeCardService();
-	StripeCard stripeCard = cardService.Get(*customerId*, *cardId*);
+	StripeCard stripeCard = cardService.Get(*customerId*, *cardId*); // optional isRecipient
 
 ### Updating a card
 
@@ -352,17 +354,17 @@ When creating a card you can use either a card or a token
 	myCard.AddressZip = "27617";
 
 	var cardService = new StripeCardService();
-	StripeCard stripeCard = cardService.Update(*customerId*, *cardId*, myCard);
+	StripeCard stripeCard = cardService.Update(*customerId*, *cardId*, myCard); // optional isRecipient
 
 ### Deleting a card
 
 	var cardService = new StripeCardService();
-	cardService.Delete(*customerId*, *cardId*);
+	cardService.Delete(*customerId*, *cardId*); // optional isRecipient
 
 ### List all cards
 
 	var cardService = new StripeCardService();
-	IEnumerable<StripeCard> response = cardService.List(*customerId*); // optional StripeListOptions
+	IEnumerable<StripeCard> response = cardService.List(*customerId*); // optional StripeListOptions and isRecipient
 
 [StripeListOptions](#stripelistoptions-paging) for paging
 
@@ -386,21 +388,21 @@ When creating a charge you can use either a card, customer, or a token. Only one
 	myCharge.Card = new StripeCreditCardOptions()
 	{
 		// set this property if using a token
-		TokenId = *tokenId*;
+		TokenId = *tokenId*,
 
 		// set these properties if passing full card details (do not
 		// set these properties if you set TokenId)
-		CardNumber = "4242424242424242";
-		CardExpirationYear = "2022";
-		CardExpirationMonth = "10";
-		CardAddressCountry = "US";                // optional
-		CardAddressLine1 = "24 Beef Flank St";    // optional
-		CardAddressLine2 = "Apt 24";              // optional
-		CardAddressCity = "Biggie Smalls";        // optional
-		CardAddressState = "NC";                  // optional
-		CardAddressZip = "27617";                 // optional
-		CardName = "Joe Meatballs";               // optional
-		CardCvc = "1223";                         // optional
+		CardNumber = "4242424242424242",
+		CardExpirationYear = "2022",
+		CardExpirationMonth = "10",
+		CardAddressCountry = "US",                // optional
+		CardAddressLine1 = "24 Beef Flank St",    // optional
+		CardAddressLine2 = "Apt 24",              // optional
+		CardAddressCity = "Biggie Smalls",        // optional
+		CardAddressState = "NC",                  // optional
+		CardAddressZip = "27617",                 // optional
+		CardName = "Joe Meatballs",               // optional
+		CardCvc = "1223"                          // optional
 	}
 
 	// set this property if using a customer
@@ -461,7 +463,7 @@ Invoices
 ### Create a customer invoice
 
 	var invoiceService = new StripeInvoiceService();
-	StripeInvoice response = invoiceService.Create(*customerId*);
+	StripeInvoice response = invoiceService.Create(*customerId*); // optional StripeInvoiceCreateOptions
 
 ### Updating a customer invoice
 
@@ -469,7 +471,7 @@ Invoices
 	stripeInvoiceUpdateOptions.Closed = true;
 
 	var invoiceService = new StripeInvoiceService();
-	StripeInvoice response = invoiceService.Update(stripeInvoiceUpdateOptions);
+	StripeInvoice response = invoiceService.Update(*invoiceId*, stripeInvoiceUpdateOptions);
 
 ### Paying an invoice
 
@@ -580,21 +582,21 @@ Recipients
 	myRecipient.Card = new StripeCreditCardOptions()
 	{
 		// set this property if using a token
-		TokenId = *tokenId*;
+		TokenId = *tokenId*,
 
 		// set these properties if passing full card details (do not
 		// set these properties if you set TokenId)
-		CardNumber = "4242424242424242";
-		CardExpirationYear = "2022";
-		CardExpirationMonth = "10";
-		CardAddressCountry = "US";                // optional
-		CardAddressLine1 = "24 Beef Flank St";    // optional
-		CardAddressLine2 = "Apt 24";              // optional
-		CardAddressCity = "Biggie Smalls";        // optional
-		CardAddressState = "NC";                  // optional
-		CardAddressZip = "27617";                 // optional
-		CardName = "Joe Meatballs";               // optional
-		CardCvc = "1223";                         // optional
+		CardNumber = "4242424242424242",
+		CardExpirationYear = "2022",
+		CardExpirationMonth = "10",
+		CardAddressCountry = "US",                // optional
+		CardAddressLine1 = "24 Beef Flank St",    // optional
+		CardAddressLine2 = "Apt 24",              // optional
+		CardAddressCity = "Biggie Smalls",        // optional
+		CardAddressState = "NC",                  // optional
+		CardAddressZip = "27617",                 // optional
+		CardName = "Joe Meatballs",               // optional
+		CardCvc = "1223"                          // optional
 	}
 
 	var recipientService = new StripeRecipientService();
@@ -612,21 +614,21 @@ Recipients
 	myRecipient.Card = new StripeCreditCardOptions()
 	{
 		// set this property if using a token
-		TokenId = *tokenId*;
+		TokenId = *tokenId*,
 
 		// set these properties if passing full card details (do not
 		// set these properties if you set TokenId)
-		CardNumber = "4242424242424242";
-		CardExpirationYear = "2022";
-		CardExpirationMonth = "10";
-		CardAddressCountry = "US";                // optional
-		CardAddressLine1 = "24 Beef Flank St";    // optional
-		CardAddressLine2 = "Apt 24";              // optional
-		CardAddressCity = "Biggie Smalls";        // optional
-		CardAddressState = "NC";                  // optional
-		CardAddressZip = "27617";                 // optional
-		CardName = "Joe Meatballs";               // optional
-		CardCvc = "1223";                         // optional
+		CardNumber = "4242424242424242",
+		CardExpirationYear = "2022",
+		CardExpirationMonth = "10",
+		CardAddressCountry = "US",                // optional
+		CardAddressLine1 = "24 Beef Flank St",    // optional
+		CardAddressLine2 = "Apt 24",              // optional
+		CardAddressCity = "Biggie Smalls",        // optional
+		CardAddressState = "NC",                  // optional
+		CardAddressZip = "27617",                 // optional
+		CardName = "Joe Meatballs",               // optional
+		CardCvc = "1223"                          // optional
 	}
 
 	var recipientService = new StripeRecipientService();
@@ -757,7 +759,7 @@ When the StripeCharge is returned, the Customer, BalanceTransaction, and Invoice
 Events
 ------
 
-Stripe sends Events (or webhooks) whenever an associated action occurs. The list of events Stripe sends is documented here: https://stripe.com/docs/api#event_types
+Stripe sends Events (via webhooks) whenever an associated action occurs. The list of events Stripe sends is documented here: https://stripe.com/docs/api#event_types
 
 ### Receiving events from Stripe
 
@@ -780,7 +782,7 @@ Stripe sends Events (or webhooks) whenever an associated action occurs. The list
 
 				switch (stripeEvent.Type)
 				{
-					case "charge.refunded":  // take a look at all the types here: https://stripe.com/docs/api#event_types
+					case StripeEvents.ChargeRefunded:  // all of the types available are listed in StripeEvents
 						var stripeCharge = Stripe.Mapper<StripeCharge>.MapFromJson(stripeEvent.Data.Object.ToString());
 						break;
 				}

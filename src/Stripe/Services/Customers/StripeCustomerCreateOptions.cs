@@ -30,6 +30,9 @@ namespace Stripe
 
         [JsonProperty("source")]
         public string Source { get; set; }
+        
+        [JsonProperty("tax_percent")]
+        public decimal? TaxPercent { get; set; }
 
         [JsonProperty("quantity")]
         public int? Quantity { get; set; }

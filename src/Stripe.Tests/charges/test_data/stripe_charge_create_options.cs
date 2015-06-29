@@ -17,7 +17,38 @@ namespace Stripe.Tests.test_data
                 CardExpirationMonth = "10",
                 CardExpirationYear = "2021",
                 CardName = "Joe Meatballs",
-                CardNumber = "4242424242424242",
+                CardNumber = "4000000000000077",
+            };
+
+            return new StripeChargeCreateOptions()
+            {
+                Card = cardOptions,
+                Description = "Joe Meatball Charge",
+                Amount = 5153,
+                Currency = "usd",
+                Metadata = new Dictionary<string, string>
+                {
+                    { "A", "Value-A" },
+                    { "B", "Value-B" }
+                }
+            };
+        }
+
+        public static StripeChargeCreateOptions DisputedCard()
+        {
+            var cardOptions = new StripeCreditCardOptions()
+            {
+                CardAddressCountry = "US",
+                CardAddressLine1 = "24 Beef Flank St",
+                CardAddressLine2 = "Apt 24",
+                CardAddressCity = "BIGGIE",
+                CardAddressState = "NC",
+                CardAddressZip = "27617",
+                CardCvc = "1223",
+                CardExpirationMonth = "10",
+                CardExpirationYear = "2021",
+                CardName = "Joe Meatballs",
+                CardNumber = "4000000000000259",
             };
 
             return new StripeChargeCreateOptions()
