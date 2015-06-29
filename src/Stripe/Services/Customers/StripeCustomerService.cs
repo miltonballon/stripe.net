@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace Stripe
 {
@@ -52,6 +55,36 @@ namespace Stripe
             var response = Requestor.GetString(url, ApiKey);
 
             return Mapper<StripeCustomer>.MapCollectionFromJson(response);
+        }
+
+        public virtual IEnumerable<StripeCustomer> ListAll(StripeCustomerListOptions listOptions = null)
+        {
+            string starting_after = null;
+            listOptions.EndingBefore = null;
+            bool next = true;
+            var totalList = new List<StripeCustomer>();
+            while (next)
+            {
+                listOptions.StartingAfter = starting_after;
+                var url = Urls.Customers;
+                url = this.ApplyAllParameters(listOptions, url, true);
+                var response = Requestor.GetString(url, ApiKey);
+                var list = Mapper<StripeCustomer>.MapCollectionFromJson(response);
+                totalList.AddRange(list);
+
+                dynamic obj = JsonConvert.DeserializeObject(response);
+                if (obj.has_more != null && Boolean.Parse(obj.has_more.ToString()))
+                {
+                    var last = list.LastOrDefault();
+                    starting_after = last.Id;
+                }
+                else
+                {
+                    next = false;
+                }
+            }
+
+            return totalList;
         }
     }
 }

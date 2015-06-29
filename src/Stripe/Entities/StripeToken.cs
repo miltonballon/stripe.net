@@ -13,6 +13,9 @@ namespace Stripe
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("email")]
+        public string Email { get; set; }
+
         [JsonProperty("used")]
         public bool? Used { get; set; }
         

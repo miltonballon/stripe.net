@@ -28,6 +28,9 @@ namespace Stripe
         [JsonProperty("plan")]
         public string PlanId { get; set; }
 
+        [JsonProperty("source")]
+        public string Source { get; set; }
+
         [JsonProperty("quantity")]
         public int? Quantity { get; set; }
 
